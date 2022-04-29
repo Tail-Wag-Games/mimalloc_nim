@@ -14,8 +14,8 @@ if useMimalloc:
       mimallocPath = projectDir() / "mimalloc" 
       # Quote the paths so we support paths with spaces
       # TODO: Is there a better way of doing this?
-      mimallocStatic = "mimallocStatic=\"" & quoteShell(mimallocPath / "src" / "static.c") & '"'
-      mimallocIncludePath = "mimallocIncludePath=\"" & quoteShell(mimallocPath / "include") & '"'
+      mimallocStatic = "mimallocStatic=\"" & (mimallocPath / "src" / "static.c") & '"'
+      mimallocIncludePath = "mimallocIncludePath=\"" & (mimallocPath / "include") & '"'
 
     # So we can compile mimalloc from the patched files
     switch("define", mimallocStatic)
