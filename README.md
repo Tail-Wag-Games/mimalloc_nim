@@ -11,7 +11,7 @@ There's also a `-d:mimallocDynamic` flag that makes the program link against mim
 
 ## Performance
 Mimalloc is advertised as having great performance, and that is true. It's especially useful with 
-ARC/ORC with threads because currently ARC/ORC can be slower for single-threaded allocation-heavy applications when compiled with `--threads:on` (see [bug #18146](https://github.com/nim-lang/Nim/issues/18146).
+ARC/ORC with threads because currently ARC/ORC can be slower for single-threaded allocation-heavy applications when compiled with `--threads:on` (see [bug #18146](https://github.com/nim-lang/Nim/issues/18146)).
 
 Some results for the code in this benchmark (it's a traditional binarytrees benchmark). Checked with `hyperfine './src/main 18'` on a Ryzen 7 3700X machine:
 | Command                                               | Time (min) |
