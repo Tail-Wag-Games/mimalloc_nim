@@ -1,3 +1,8 @@
+when defined(windows):
+  # https://github.com/microsoft/mimalloc/blob/master/CMakeLists.txt#L219
+  # shell32 user32 advapi aren't needed for static linking from my testing
+  {.passL: "-lpsapi -lbcrypt".}
+
 when defined(mimallocDynamic):
   {.passL: "-lmimalloc".}
 else:
