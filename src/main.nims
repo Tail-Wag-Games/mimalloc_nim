@@ -3,7 +3,7 @@ import std/[os, strutils]
 var useMimalloc = defined(mimalloc) or defined(mimallocDynamic)
 
 # Uncomment this to use mimalloc by default
-useMimalloc = true
+#useMimalloc = true
 
 if useMimalloc:
   switch("gc", "orc")
