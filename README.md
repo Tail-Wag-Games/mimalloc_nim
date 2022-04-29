@@ -3,9 +3,8 @@
 This repository contains a single Nim file along with a .nims config file that makes it possible
 to use mimalloc for Nim with ARC/ORC.
 
-By default the config file changes the default MM to ORC and statically links Mimalloc.
-If you don't want ORC by default, or don't want mimalloc to be linked by default, edit the
-`main.nims` file.
+To compile with malloc, simply add `-d:mimalloc` to your compilation flags, or uncomment the relevant line in
+the `main.nims` file.
 
 There's also a `-d:mimallocDynamic` flag that makes the program link against mimalloc dynamically.
 

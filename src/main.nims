@@ -1,27 +1,27 @@
-import std/os
+import std/[os, strutils]
 
-switch("gc", "orc")
-
-var useMalloc = defined(useMalloc)
-
-when not defined(mimallocDynamic):
+when defined(mimalloc) or defined(mimallocDynamic):
+  switch("gc", "orc")
   switch("define", "useMalloc")
-  useMalloc = true
 
-  let
-    mimallocPath = projectDir() / "mimalloc"
-    mimallocStatic = "mimallocStatic=" & (mimallocPath / "src" / "static.c")
-    mimallocIncludePath = "mimallocIncludePath=" & (mimallocPath / "include")
+  when not defined(mimallocDynamic):
+    let
+      mimallocPath = projectDir() / "mimalloc" 
+      # Quote the paths so we support paths with spaces
+      # TODO: Is there a better way of doing this?
+      mimallocStatic = "mimallocStatic=" & quoteShell(mimallocPath / "src" / "static.c")
+      mimallocIncludePath = "mimallocIncludePath=" & quoteShell(mimallocPath / "include")
 
-  # So we can compile mimalloc from the patched files
-  switch("define", mimallocStatic)
-  switch("define", mimallocIncludePath)
+    # So we can compile mimalloc from the patched files
+    switch("define", mimallocStatic)
+    switch("define", mimallocIncludePath)
 
-  # Mimalloc has a lot of asserts that we need to disable
-  # because this isn't a debug build (I spent half an hour debugging this :( )
-  # XXX: Maybe keep it enabled unless -d:release or -d:danger?
-  switch("passC", "-DNDEBUG")
+  # Not sure if we really need those or not, but Mimalloc uses them
+  case get("cc")
+  of "gcc", "clang", "icc", "icl":
+    switch("passC", "-ftls-model=initial-exec -fno-builtin-malloc")
+  else:
+    discard
 
-if useMalloc:
   {.hint: "Patching malloc.nim to use mimalloc".}
   patchFile("stdlib", "malloc", "patchedstd" / "mimalloc")
