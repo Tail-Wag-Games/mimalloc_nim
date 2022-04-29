@@ -1,6 +1,11 @@
 import std/[os, strutils]
 
-when defined(mimalloc) or defined(mimallocDynamic):
+var useMimalloc = defined(mimalloc) or defined(mimallocDynamic)
+
+# Uncomment this to use mimalloc by default
+useMimalloc = true
+
+if useMimalloc:
   switch("gc", "orc")
   switch("define", "useMalloc")
 
@@ -9,8 +14,8 @@ when defined(mimalloc) or defined(mimallocDynamic):
       mimallocPath = projectDir() / "mimalloc" 
       # Quote the paths so we support paths with spaces
       # TODO: Is there a better way of doing this?
-      mimallocStatic = "mimallocStatic=" & quoteShell(mimallocPath / "src" / "static.c")
-      mimallocIncludePath = "mimallocIncludePath=" & quoteShell(mimallocPath / "include")
+      mimallocStatic = "mimallocStatic=\"" & quoteShell(mimallocPath / "src" / "static.c") & '"'
+      mimallocIncludePath = "mimallocIncludePath=\"" & quoteShell(mimallocPath / "include") & '"'
 
     # So we can compile mimalloc from the patched files
     switch("define", mimallocStatic)

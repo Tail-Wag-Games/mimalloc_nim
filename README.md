@@ -3,7 +3,7 @@
 This repository contains a single Nim file along with a .nims config file that makes it possible
 to use mimalloc for Nim with ARC/ORC.
 
-To compile with malloc, simply add `-d:mimalloc` to your compilation flags, or uncomment the relevant line in
+To compile with Mimalloc, simply add `-d:mimalloc` to your compilation flags, or uncomment the relevant line in
 the `main.nims` file.
 
 There's also a `-d:mimallocDynamic` flag that makes the program link against mimalloc dynamically.
